@@ -55,7 +55,7 @@ const sendInquiry = async (e) => {
   }
 
   setTimeout(async () => {
-    const response = await fetch(`${config.apiUrl}/request`, {
+    const response = await fetch(`${config.public.apiUrl}/request`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -155,7 +155,6 @@ const sendInquiry = async (e) => {
     <div class="contact-form">
       <h1 class="medium-font"><Icon name="tabler:mail-filled" />Get in Touch</h1>
       <section v-if="isLoading" class="loading">
-        <p>Sending</p>
         <div class="spinner">
           <div class="double-bounce1"></div>
           <div class="double-bounce2"></div>
