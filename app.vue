@@ -84,70 +84,76 @@ const sendInquiry = async (e) => {
       <a @click="$scrollToElement('#contact')">Contact</a>
     </div>
   </div>
-  <div class="container" id="home">
+  <div class="stoke-container" id="home">
     <section class="hero-section">
       <h1 class="large-font">StokeTech</h1>
       <div class="col" style="border-left: 1px solid #eee;">
-        <p class="medium-font">Modernizing your tech stack and building solutions to accelerate your business.</p>
-        <a @click="$scrollToElement('#contact')" class="primary-btn medium-font">Contact Us</a>
+        <p class="small-font">Modernizing your tech stack and building solutions to accelerate your business.</p>
+        <a @click="$scrollToElement('#contact')" class="primary-btn small-font">Contact Us</a>
       </div>
     </section>
     <div class="mouse-outer">
       <div @click="$scrollToElement('#about')" class="mouse"></div>
     </div>
   </div>
-  <div class="container" id="about">
-    <section class="text-container">
-      <h1 class="medium-font" style="margin-top: 0;">About StokeTech</h1>
+  <div class="stoke-container" id="about">
+    <section class="text-stoke-container">
+      <h1 class="medium-font" style="margin-top: 0;">
+        <Icon name="mdi:account-group" />About StokeTech
+      </h1>
       <p class="small-font">At StokeTech, we are more than just a team of software developers. We are passionate problem
         solvers, innovative thinkers, and technology enthusiasts committed to delivering exceptional results. With a
         proven track record in working with industry leaders like AT&T and Entech, we bring a wealth of experience and
         expertise to every project.</p>
-      <h1 class="medium-font">Our Mission</h1>
+      <h1 class="medium-font">
+        <Icon name="tabler:chart-bubble-filled" />Our Mission
+      </h1>
       <p class="small-font">Our mission is simple: to empower businesses through technology. We believe that well-crafted
         software solutions can transform the way companies operate, enhance their efficiency, and drive growth. We
         leverage our skills in .NET, Ruby on Rails, and frontend technologies like React and Vue to create tailor-made
         solutions that exceed your expectations.</p>
-      <h1 class="medium-font">Why Choose StokeTech</h1>
-      <section class="skillset small-font">
-        <section>
-          <div>
-            <Icon name="carbon:assembly-cluster" color="white" />
-            <span class="bold">Experience</span>
-          </div>
-          <p>
-            Our team has a solid history of successful projects with industry giants, showcasing our ability to tackle
-            complex challenges.
-          </p>
+      <div class="choice">
+        <h1 class="medium-font">Why Choose StokeTech</h1>
+        <section class="skillset small-font">
+          <section>
+            <div>
+              <Icon name="carbon:assembly-cluster" color="white" />
+              <span class="bold">Experience</span>
+            </div>
+            <p>
+              Our team has a solid history of successful projects with industry giants, showcasing our ability to tackle
+              complex challenges.
+            </p>
+          </section>
+          <section>
+            <div>
+              <Icon name="carbon:api" color="white" />
+              <span class="bold">Expertise</span>
+            </div>
+            <p>
+              We specialize in a wide range of technologies, ensuring that we can choose
+              the best tools for your specific needs.
+            </p>
+          </section>
+          <section>
+            <div>
+              <Icon name="carbon:branch" color="white" />
+              <span class="bold">Collaboration</span>
+            </div>
+            <p>We view our clients as partners, fostering open communication and
+              collaboration to achieve shared goals.
+            </p>
+          </section>
         </section>
-        <section>
-          <div>
-            <Icon name="carbon:api" color="white" />
-            <span class="bold">Expertise</span>
-          </div>
-          <p>
-            We specialize in a wide range of technologies, ensuring that we can choose
-            the best tools for your specific needs.
-          </p>
-        </section>
-        <section>
-          <div>
-            <Icon name="carbon:branch" color="white" />
-            <span class="bold">Collaboration</span>
-          </div>
-          <p>We view our clients as partners, fostering open communication and
-            collaboration to achieve shared goals.
-          </p>
-        </section>
-      </section>
+      </div>
     </section>
   </div>
-  <div class="container" id="projects">
+  <div class="stoke-container" id="projects">
     test
   </div>
-  <div class="container" id="contact">
+  <div class="stoke-container" id="contact">
     <div class="contact-form">
-      <h1>Get in Touch</h1>
+      <h1 class="medium-font"><Icon name="tabler:mail-filled" />Get in Touch</h1>
       <section v-if="isLoading" class="loading">
         <p>Sending</p>
         <div class="spinner">
@@ -155,16 +161,28 @@ const sendInquiry = async (e) => {
           <div class="double-bounce2"></div>
         </div>
       </section>
-      <form v-else-if="!isLoading && !requestMade" @submit="sendInquiry">
-        <label>Name</label>
-        <input type="text" required v-model="name">
-        <label>Email</label>
-        <input type="email" required v-model="email">
-        <label>Phone (ex ###-###-####)</label>
-        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required v-model="phone">
-        <label>How can we help?</label>
-        <textarea v-model="text" />
-        <button type="submit">Send</button>
+      <form class="flex flex-col flex-gap-20" v-else-if="!isLoading && !requestMade" @submit="sendInquiry">
+        <div class="input-field">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+            Name
+          </label>
+          <input
+            class="block w-full border rounded-md py-2 px-3 focus:outline-none dark:bg-gray-700/50 dark:border-gray-500 dark:text-gray-300 dark:placeholder-gray-400 dark:focus:ring-2 dark:focus:border-transparent border-gray-300 focus:ring-blue-600 focus:border-blue-600 dark:focus:ring-dark-theme-red dark-form-input"
+            placeholder=" " v-model="name" required />
+        </div>
+        <div class="input-field">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
+          <input class="block w-full border rounded-md py-2 px-3 focus:outline-none dark:bg-gray-700/50 dark:border-gray-500 dark:text-gray-300 dark:placeholder-gray-400 dark:focus:ring-2 dark:focus:border-transparent border-gray-300 focus:ring-blue-600 focus:border-blue-600 dark:focus:ring-dark-theme-red dark-form-input" type="email" required v-model="email">
+        </div>
+        <div class="input-field">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Phone</label>
+          <input class="block w-full border rounded-md py-2 px-3 focus:outline-none dark:bg-gray-700/50 dark:border-gray-500 dark:text-gray-300 dark:placeholder-gray-400 dark:focus:ring-2 dark:focus:border-transparent border-gray-300 focus:ring-blue-600 focus:border-blue-600 dark:focus:ring-dark-theme-red dark-form-input" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required v-model="phone" placeholder="123-456-7890">
+        </div>
+        <div class="input-field">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">How can we help?</label>
+          <textarea class="mt-1 block w-full border rounded-md py-2 px-3 focus:outline-none dark:bg-gray-700/50 dark:border-gray-500 dark:text-gray-300 dark:placeholder-gray-400 dark:focus:ring-2 dark:focus:border-transparent border-gray-300 focus:ring-blue-600 focus:border-blue-600 dark:focus:ring-dark-theme-red dark-form-input" v-model="text" />
+        </div>
+        <button type="submit"><Icon name="ion:paper-airplane" color="white" /> Send</button>
       </form>
       <section v-else>
         <h2>Thank you!</h2>
@@ -175,54 +193,6 @@ const sendInquiry = async (e) => {
 </template>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
-
-body,
-html {
-  background: rgb(39, 39, 39);
-
-}
-
-.large-font {
-  font-size: 3rem;
-}
-
-.medium-font {
-  font-size: 1.8rem;
-}
-
-.small-font {
-  font-size: 1.5rem;
-}
-
-.col {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.primary-btn {
-  display: inline-block;
-  padding: 1rem;
-  width: 100%;
-  border-radius: 15px;
-  background: #c21858;
-  color: #ddd;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all .1s ease-in-out;
-
-  &:hover {
-    filter: brightness(150%);
-  }
-}
-
 .mouse-outer {
   position: absolute;
   top: 90%;
@@ -231,8 +201,8 @@ html {
 
   .mouse {
     z-index: 50;
-    width: 60px;
-    height: 108px;
+    width: 50px;
+    height: 90px;
     border: 4px solid #eee;
     border-radius: 60px;
     cursor: pointer;
@@ -261,18 +231,13 @@ html {
 @keyframes mouse {
   from {
     opacity: 1;
-    top: 20px;
+    top: 15px;
   }
 
   to {
     opacity: 0;
-    top: 80px;
+    top: 55px;
   }
-}
-
-.bold {
-  font-weight: bold;
-  color: #eee;
 }
 
 .navbar {
@@ -295,7 +260,7 @@ html {
     display: inherit;
     align-items: inherit;
     justify-content: space-evenly;
-    width: 22%;
+    min-width: 22%;
     height: 100%;
     cursor: pointer;
     transition: all ease-in-out .3s;
@@ -312,7 +277,7 @@ html {
   }
 }
 
-.container {
+.stoke-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -370,16 +335,22 @@ html {
   }
 }
 
-.text-container {
+h1 {
+  svg {
+    margin-right: .5rem;
+  }
+}
+
+.text-stoke-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  width: 80%;
+  width: 90%;
+  max-width: 1200px;
   padding: 2rem;
-  background: rgba(204, 24, 93, 0.2);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  // background: rgba(204, 24, 93, 0.2);
+
 
   h1 {
     margin: 3.5rem 0 2rem 0;
@@ -429,71 +400,51 @@ html {
   .contact-form {
     width: 80%;
     background: rgba(20, 20, 20, .6);
-    padding: 5rem;
+    padding: 4rem;
     border-radius: 1rem;
     min-height: 400px;
+    height: auto;
 
-    form {
+    button {
+      background: #c21858;
+      padding: .5rem 1rem;
+      border-radius: 5px;
+      width: 7rem;
       display: flex;
-      flex-direction: column;
-      width: 50%;
-      margin: 1rem auto;
+      align-items: center;
+      justify-content: space-evenly;
+      align-self: center;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: all .2s ease-in-out;
+
+      &:hover {
+        filter: brightness(150%);
+      }
     }
-  }
-}
 
-/* Spinner */
-.spinner {
-  width: 40px;
-  height: 40px;
+    .input-field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      min-height: 5rem;
+      padding: .4rem 2rem;
 
-  position: relative;
-  margin: 100px auto;
-}
+      label {
+        margin-bottom: .5rem;
+      }
 
-.double-bounce1,
-.double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: #333;
-  opacity: 0.6;
-  position: absolute;
-  top: 0;
-  left: 0;
+      input, textarea {
+        width: 80%;
+        cursor: pointer;
+      }
+    }
 
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
-}
-
-.double-bounce2 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
-}
-
-@-webkit-keyframes sk-bounce {
-
-  0%,
-  100% {
-    -webkit-transform: scale(0.0)
-  }
-
-  50% {
-    -webkit-transform: scale(1.0)
-  }
-}
-
-@keyframes sk-bounce {
-
-  0%,
-  100% {
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  }
-
-  50% {
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
+    h1 {
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
   }
 }
 </style>
