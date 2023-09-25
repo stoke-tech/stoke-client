@@ -5,6 +5,14 @@ const { $scrollToElement } = useNuxtApp()
 const isLoading = ref(false)
 const requestMade = ref(false)
 const errors = ref([])
+const apiResult = ref('')
+const menuOpen = ref(false)
+const menuToggle = computed(() => menuOpen.value ? ' w-full h-screen ' : ' hidden ')
+
+
+const success = 'success'
+const alreadyExists = 'alreadyExists'
+const incomplete = 'incomplete'
 
 // Contact form refs
 const name = ref('')
@@ -45,6 +53,7 @@ const sendInquiry = async (e) => {
     return
 
   isLoading.value = true
+  apiRequest.value = ''
 
   const req = {
     name: name.value,
@@ -54,36 +63,63 @@ const sendInquiry = async (e) => {
 
   }
 
-  setTimeout(async () => {
-    const response = await fetch(`${config.public.apiUrl}/request`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify(req)
-    })
+  const response = await fetch(`${config.public.apiUrl}/request`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(req)
+  })
 
-    isLoading.value = false
+  isLoading.value = false
+  requestMade.value = true
 
-    if (response.ok)
-      requestMade.value = true
-  }, 2000)
+  if (response.ok)
+    apiResult.value = success
+  if (response.status === 226)
+    apiResult.value = alreadyExists
+  if (response.status === 422)
+    apiResult.value = incomplete
 
+  console.log('what is going on')
 } 
+
+
+const toggleMenu = (loc) => {
+  menuOpen.value = !menuOpen.value
+  if (loc) $scrollToElement(loc)
+}
 </script>
 
 <template>
-  <div class="navbar">
-    <div class="logo large-font">StokeTech</div>
-    <div class="nav medium-font">
-      <a @click="$scrollToElement('#home')">Home</a>
-      <a @click="$scrollToElement('#about')">About</a>
-      <a @click="$scrollToElement('#projects')">Projects</a>
-      <a @click="$scrollToElement('#contact')">Contact</a>
+  <header class="w-full h-16 drop-shadow-lg navbar z-40">
+    <div class="container px-4 md:px-0 h-full mx-auto flex justify-between items-center">
+      <a href="/" class="logo medium-font font-bold italic">StokeTech</a>
+      <ul class="fixed top-0 right-0 px-10 py-16 z-50 md:relative md:flex md:p-0 dark-bg md:bg-transparent md:flex-row md:space-x-6 flex justify-evenly items-center large-font" :class="menuToggle">
+        <li class="md:hidden z-90 fixed top-4 right-6">
+                    <a href="javascript:void(0)" class="text-right text-white text-4xl"
+                        @click="toggleMenu()">&times;</a>
+                </li>
+        <li>
+          <a @click="toggleMenu('#home')">Home</a>
+        </li>
+        <li>
+          <a @click="toggleMenu('#about')">About</a>
+        </li>
+        <li>
+          <a @click="toggleMenu('#contact')">Contact</a>
+        </li>
+      </ul>
+      <div class="flex-items-center md:hidden">
+        <button class="text-white text-4xl font-bold opacity-70 hover:opacity-100 duration-300" @click="toggleMenu()">
+          &#9776;
+        </button>
+      </div>
     </div>
-  </div>
+  </header>
+  <main>
   <div class="stoke-container" id="home">
     <section class="hero-section">
       <h1 class="large-font">StokeTech</h1>
@@ -148,9 +184,6 @@ const sendInquiry = async (e) => {
       </div>
     </section>
   </div>
-  <div class="stoke-container" id="projects">
-    test
-  </div>
   <div class="stoke-container" id="contact">
     <div class="contact-form">
       <h1 class="medium-font"><Icon name="tabler:mail-filled" />Get in Touch</h1>
@@ -184,11 +217,30 @@ const sendInquiry = async (e) => {
         <button type="submit"><Icon name="ion:paper-airplane" color="white" /> Send</button>
       </form>
       <section v-else>
-        <h2>Thank you!</h2>
-        <p>We will reach out to you soon!</p>
+        <div v-if="apiResult === success">
+          <h2>Thank you!</h2>
+          <p>We will reach out to you soon!</p>
+        </div>
+        <div v-else-if="apiResult === alreadyExists">
+          <h2>Uh oh!</h2>
+          <p>It looks like you already have an existing request with us.</p>
+          <p>If you believe this is a mistake, please send an email to <a href="mailto:alexis@stoketech.com">our team</a>.</p>
+        </div>
+        <div v-else-if="apiResult === incomplete">
+          <h2>Uh oh!</h2>
+          <p>It looks like your request is incomplete.</p>
+          <p>Please verify that all form fields are filled in!</p>
+        </div>
+        <div v-else>
+          <h2>Uh oh!</h2>
+          <p>Something unexpected happened.</p>
+          <p>If you believe this is a mistake, please send an email to <a href="mailto:alexis@stoketech.com">our team</a>.</p>
+        </div>
       </section>
     </div>
   </div>
+      
+  </main>
 </template>
 
 <style lang="scss">
@@ -199,9 +251,9 @@ const sendInquiry = async (e) => {
   transform: translate(-50%, -50%);
 
   .mouse {
-    z-index: 50;
-    width: 50px;
-    height: 90px;
+    z-index: 20;
+    width: 40px;
+    height: 75px;
     border: 4px solid #eee;
     border-radius: 60px;
     cursor: pointer;
@@ -213,8 +265,8 @@ const sendInquiry = async (e) => {
 
     &::before {
       content: "";
-      width: 25px;
-      height: 25px;
+      width: 20px;
+      height: 20px;
       position: absolute;
       top: 30px;
       background: #ddd;
@@ -230,47 +282,43 @@ const sendInquiry = async (e) => {
 @keyframes mouse {
   from {
     opacity: 1;
-    top: 15px;
+    top: 12px;
   }
 
   to {
     opacity: 0;
-    top: 55px;
+    top: 45px;
   }
 }
 
 .navbar {
   background: rgb(28, 28, 28);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
   position: fixed;
-  height: 64px;
-  color: #ddd;
-  overflow-y: hidden;
-  z-index: 100;
 
   .logo {
-    margin: 1rem;
+    color: #ddd;
+    transition: all ease-in-out .3s;
+
+    &:hover {
+      filter: brightness(150%);
+    }
   }
 
-  .nav {
-    display: inherit;
-    align-items: inherit;
-    justify-content: space-evenly;
-    min-width: 22%;
-    height: 100%;
+  ul {
+    flex-direction: column;
+  }
+
+  li {
+    text-decoration-color: none;
     cursor: pointer;
-    transition: all ease-in-out .3s;
 
     a {
       color: #bbb;
-      text-decoration: none;
+      transition: all ease-in-out .3s;
 
       &:hover {
         color: #fff;
-        text-decoration: none;
+        text-decoration: none;;
       }
     }
   }
@@ -282,6 +330,7 @@ const sendInquiry = async (e) => {
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
 
   h1 {
     color: #eee;
