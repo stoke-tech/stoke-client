@@ -7,7 +7,7 @@ const requestMade = ref(false)
 const errors = ref([])
 const apiResult = ref('')
 const menuOpen = ref(false)
-const menuToggle = computed(() => menuOpen.value ? ' w-full h-screen ' : ' hidden ')
+const menuToggle = computed(() => menuOpen.value ? ' large-font w-full h-screen flex flex-col ' : ' hidden ')
 
 
 const success = 'success'
@@ -97,7 +97,7 @@ const toggleMenu = (loc) => {
   <header class="w-full h-16 drop-shadow-lg navbar z-40">
     <div class="container px-4 md:px-0 h-full mx-auto flex justify-between items-center">
       <a href="/" class="logo medium-font font-bold italic">StokeTech</a>
-      <ul class="fixed top-0 right-0 px-10 py-16 z-50 md:relative md:flex md:p-0 dark-bg md:bg-transparent md:flex-row md:space-x-6 flex justify-evenly items-center large-font" :class="menuToggle">
+      <ul class="fixed top-0 right-0 px-10 py-16 z-50 md:relative md:flex md:p-0 dark-bg md:bg-transparent md:flex-row md:space-x-6 justify-evenly items-center" :class="menuToggle">
         <li class="md:hidden z-90 fixed top-4 right-6">
                     <a href="javascript:void(0)" class="text-right text-white text-4xl"
                         @click="toggleMenu()">&times;</a>
@@ -302,10 +302,6 @@ const toggleMenu = (loc) => {
     &:hover {
       filter: brightness(150%);
     }
-  }
-
-  ul {
-    flex-direction: column;
   }
 
   li {
