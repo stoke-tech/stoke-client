@@ -88,8 +88,9 @@ const sendInquiry = async (e) => {
 
 
 const toggleMenu = (loc) => {
-  menuOpen.value = !menuOpen.value
   if (loc) $scrollToElement(loc)
+  if (menuOpen.value === true)
+    menuOpen.value = false
 }
 </script>
 
@@ -113,7 +114,7 @@ const toggleMenu = (loc) => {
         </li>
       </ul>
       <div class="flex-items-center md:hidden">
-        <button class="text-white text-4xl font-bold opacity-70 hover:opacity-100 duration-300" @click="toggleMenu()">
+        <button class="text-white text-4xl font-bold opacity-70 hover:opacity-100 duration-300" @click="menuOpen = true">
           &#9776;
         </button>
       </div>
